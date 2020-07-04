@@ -1,0 +1,11 @@
+﻿@inject IJSRuntime JSRuntime
+
+<iframe src="@Url" class="subapplication" />
+
+
+@code {
+    [Parameter]
+    public Uri Url { get; set; }
+
+
+}

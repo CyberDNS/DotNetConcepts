@@ -1,0 +1,31 @@
+﻿@page "/Applications/{applicationName}"
+@page "/Applications/{applicationName}/{suffix}"
+@using System.Net
+@inject MainContainer.Data.ApplicationsService  ApplicationService 
+
+@if (_url == null)
+{
+    <p>Loading....</p>
+}
+else
+{
+<SubApp Url="@_url"/>
+}
+
+@code {
+    [Parameter]
+    public string ApplicationName { get; set; }
+
+    [Parameter]
+    public string Suffix { get; set; }
+
+    private Uri _url;
+
+    protected override void OnParametersSet()
+    {
+        var application = ApplicationService.Applications.Where(a => a.Name == ApplicationName).SingleOrDefault();
+
+        _url = new Uri($"{application.Url.ToString()}{Suffix}");
+        base.OnParametersSet();
+    }
+}

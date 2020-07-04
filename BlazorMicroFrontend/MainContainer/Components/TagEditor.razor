@@ -1,0 +1,53 @@
+﻿@using System.Text.RegularExpressions
+
+<h3>TagEditor</h3>
+
+<ul>
+    @foreach (string tag in Tags)
+    {
+        <li class="btn btn-outline-primary" @onclick="@(() => _edited = tag)">
+            <span>@tag</span>
+            <button class="btn btn-link" @onclick="@(() => Delete(tag))">x</button>
+            @if (_edited == tag)
+            {
+                <input type="text" />
+            }
+    </li>
+    }
+</ul>
+<input type="text" @bind="_input" @bind:event="oninput" @onkeypress="Enter" @onclick="@(() => Console.WriteLine("Test"))" />
+
+@code {
+    [Parameter]
+    public IEnumerable<string> Tags
+    {
+        get { return _tags; }
+        set { _tags = value.ToList(); }
+    }
+
+    private List<string> _tags = new List<string>();
+    private string _input;
+
+    private string _edited = null;
+
+    [Parameter]
+    public EventCallback<IEnumerable<string>> TagsChanged { get; set; }
+
+    private void Enter(KeyboardEventArgs args)
+    {
+        if (args.Key == "Enter")
+        {
+            _tags.Add(_input);
+            _input = string.Empty;
+        }
+
+        TagsChanged.InvokeAsync(Tags);
+    }
+
+    private void Delete(string tag)
+    {
+        _tags.Remove(tag);
+
+        TagsChanged.InvokeAsync(Tags);
+    }
+}

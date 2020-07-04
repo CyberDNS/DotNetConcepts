@@ -1,0 +1,32 @@
+﻿@page "/"
+
+<h1>Hello, world!</h1>
+
+
+    Environments:
+    <TagEditor @bind-Tags="_environments" />
+    ApplicationGroups:
+    <TagEditor @bind-Tags="_applicationGroups" />
+    Users:
+    <TagEditor @bind-Tags="_users" />
+
+    <input type="submit" @onclick="OnClick" value="Submit"/>
+
+
+@code
+{
+    private IEnumerable<string> _environments { get; set; } = new string[] { "Prod", "UAT" };
+
+    private IEnumerable<string> _applicationGroups { get; set; } = new string[0];
+    private IEnumerable<string> _users { get; set; } = new string[0];
+
+
+    private void OnClick(MouseEventArgs args)
+    {
+        IEnumerable<Tag> tags = _environments.Select(t => new Tag() { Key = "Environement", Value = t })
+            .Union(_applicationGroups.Select(t => new Tag() { Key = "ApplicationGroups", Value = t }))
+            .Union(_users.Select(t => new Tag() { Key = "Users", Value = t })).ToArray();
+    }
+
+}
+
