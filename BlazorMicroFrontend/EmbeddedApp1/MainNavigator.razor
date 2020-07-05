@@ -1,0 +1,15 @@
+﻿@using System.Net
+@inject IJSRuntime JSRuntime
+
+@code {
+    [Parameter]
+    public string Url { get; set; }
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JSRuntime.InvokeAsync<string>("window.top.postMessage", new NavigationMessage { Url = Url }, "*");
+    }
+}
+
+

@@ -36,7 +36,7 @@
     <script>
         window.onmessage = function (event) {
             if (event.data.message == 'navigateMain') {
-                window.location.href = '/Applications/' + event.data.application + '/' + event.data.url;
+                window.location.href = '/' + event.data.url;
             }
         };
     </script>
