@@ -9,16 +9,16 @@ namespace ComClient
     {
         static void Main(string[] args)
         {
-            Type ComType = Type.GetTypeFromProgID("ComServer.ComServer");
-
+            Type ComType = Type.GetTypeFromCLSID(new Guid("EC23E47B-A6B4-4D83-B692-A68162DD3939"));
             object ComObject = Activator.CreateInstance(ComType);
 
-            object[] methodArgs = new object[1];
-            methodArgs[0] = "Test Arg";
-            int result = (int)ComType.InvokeMember("Test",
-                                                   BindingFlags.InvokeMethod, null,
-                                                   ComObject, methodArgs);
-            Console.WriteLine("Result: " + result.ToString());
+            bool bootResult = (bool)ComType.InvokeMember("Boot", BindingFlags.InvokeMethod, null, ComObject, new object[0]);
+            Console.WriteLine($"Boot: {bootResult}");
+
+            string result = (string)ComType.InvokeMember("Call", BindingFlags.InvokeMethod, null, ComObject, new object[] { "" });
+            Console.WriteLine($"Result: {result}");
+
+            ComType.InvokeMember("Shutdown", BindingFlags.InvokeMethod, null, ComObject, new object[0]);
 
             if (Marshal.IsComObject(ComObject))
                 Marshal.ReleaseComObject(ComObject);
