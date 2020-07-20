@@ -1,0 +1,64 @@
+﻿@page "/counter"
+
+<h1>Counter</h1>
+
+<p>Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@*<EditForm EditContext="@editContext" OnSubmit="HandleSubmit">
+    <DataAnnotationsValidator/>
+    <ValidationSummary/>
+
+    <InputText @bind-Value="starship.Test"/>
+    <ValidationMessage For="() => starship.Test"/>
+
+    <button type="submit">Submit</button>
+</EditForm>*@
+
+@code {
+
+
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+
+    @*private Starship starship = new Starship();
+    private EditContext editContext;
+
+    protected override void OnInitialized()
+    {
+        editContext = new EditContext(starship);
+    }
+
+    private async Task HandleSubmit()
+    {
+        var isValid = editContext.Validate();
+
+
+
+
+
+        if (isValid)
+        {
+
+        }
+        else
+        {
+
+        }
+    }
+
+
+    public class Starship
+    {
+        [System.ComponentModel.DataAnnotations.Required]
+        [System.ComponentModel.DataAnnotations.MinLength(5)]
+        public string Test { get; set; }
+
+    }*@
+
+}

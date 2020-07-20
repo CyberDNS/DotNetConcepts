@@ -1,0 +1,48 @@
+﻿@inject IJSRuntime JSRuntime;
+
+
+<Router AppAssembly="@typeof(Program).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+    </Found>
+    <NotFound>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <p>Sorry, there's nothing at this address.</p>
+        </LayoutView>
+    </NotFound>
+</Router>
+
+@_arguments
+
+@code
+{ 
+    private static Action<string> _action;
+    private string _arguments;
+
+    protected override void OnInitialized()
+    {
+        _action = UpdateArguments;
+    }
+
+    private void UpdateArguments(string result)
+    {
+        _arguments = result;
+        StateHasChanged();
+    }
+
+
+    [JSInvokable("DifferentMethodName")]
+    public static void JsUpdateArguments(string result)
+    {
+        _action.Invoke(result);
+    }
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (_arguments == null)
+        {
+            await JSRuntime.InvokeVoidAsync("getArguments");
+        }
+    }
+}
