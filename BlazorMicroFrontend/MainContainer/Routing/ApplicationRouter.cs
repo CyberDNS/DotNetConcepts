@@ -21,10 +21,7 @@ namespace MainContainer.Routing
         [Inject] private NavigationManager _navigationManager { get; set; }
 
 
-        [Parameter] public RenderFragment<RouteData> SubApplication { get; set; }
-
-        [Parameter] public RenderFragment MainApplication { get; set; }
-
+        [Parameter] public RenderFragment<Uri> SubApplication { get; set; }
 
         public void Attach(RenderHandle renderHandle)
         {
@@ -38,11 +35,6 @@ namespace MainContainer.Routing
         public Task SetParametersAsync(ParameterView parameters)
         {
             parameters.SetParameterProperties(this);
-
-            if (MainApplication == null)
-            {
-                throw new InvalidOperationException($"The {nameof(ApplicationRouter)} component requires a value for the parameter {nameof(MainApplication)}.");
-            }
 
             Refresh();
             return Task.CompletedTask;
@@ -61,14 +53,10 @@ namespace MainContainer.Routing
                     var app = _subApplicationManager.SubApplications.Where(a => a.Key == match.Groups["key"].Value).Single();
                     var suffix = match.Groups["suffix"].Value.TrimStart('/');
 
-                    RouteData routeData = new RouteData(typeof(SubApp), new Dictionary<string, object>() { { "Url", $"{app.Uri}{suffix}" } });
+                    Uri routeData = new Uri($"{app.Uri}{suffix}");
 
                     _renderHandle.Render(SubApplication(routeData));
                 }
-            }
-            else
-            {
-                _renderHandle.Render(MainApplication);
             }
         }
 
