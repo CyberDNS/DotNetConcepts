@@ -13,6 +13,6 @@ namespace MainContainer.Routing
 
         public Uri Uri { get; set; }
 
-        public string Route => $"/_app/{Key}";
+        public string Route => $"/app/{Key}";
     }
 }

@@ -1,14 +1,21 @@
 ﻿
-    <ApplicationRouter>
-        <SubApplication Context="routeData">
-            <FrameView Layout="@typeof(MainLayout)" Uri="@routeData" />
-        </SubApplication>
-    </ApplicationRouter>
+<ApplicationRouter>
+    <Found Context="uri">
+        <FrameView Layout="@typeof(MainLayout)" Uri="@uri" />
+    </Found>
+    <NotFound>
+        <LayoutView Layout="@typeof(AspnetCoreMainLayout)">
+            <p>Sorry, there's nothing at this address.</p>
+        </LayoutView>
+    </NotFound>
+</ApplicationRouter>
 
 
-@code { 
-    protected override void OnInitialized()
+
+
+@code {
+        protected override void OnInitialized()
         {
             base.OnInitialized();
         }
-}
+    }
