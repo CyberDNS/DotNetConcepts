@@ -47,7 +47,6 @@ namespace ComServer
         private string StaCall(string jsonArgs)
         {
             MessageBox.Show(Thread.CurrentThread.GetApartmentState().ToString());
-
             return Thread.CurrentThread.GetApartmentState().ToString();
         }
 
@@ -62,23 +61,34 @@ namespace ComServer
         }
 
 
-        public int Test(string text)
+        public string Test(string text)
         {
-            Debug.WriteLine("Hello World 64bit:\n" + text);
-
-            List<List<string>> memory = new List<List<string>>();
-
-            for (int j = 0; j <= 100000; j++)
+            try
             {
-                List<string> memory2 = new List<string>();
-                memory.Add(memory2);
-                for (int i = 0; i <= 1000000; i++)
-                {
-                    memory2.Add("abcdefghijklmnopqrstuvwxyz!abcdefghijklmnopqrstuvwxyz!abcdefghijklmnopqrstuvwxyz!abcdefghijklmnopqrstuvwxyz!abcdefghijklmnopqrstuvwxyz!abcdefghijklmnopqrstuvwxyz!abcdefghijklmnopqrstuvwxyz!abcdefghijklmnopqrstuvwxyz!abcdefghijklmnopqrstuvwxyz!");
-                }
-            }
+                MessageBox.Show(text);
 
-            return 6667;
+                List<List<string>> memory = new List<List<string>>();
+                for (int j = 0; j <= 3000; j++)
+                {
+                    List<string> memory2 = new List<string>();
+                    memory.Add(memory2);
+                    for (int i = 0; i <= 100000; i++)
+                    {
+                        memory2.Add("abcdefghijklmnopqrstuvwxyz!abcdefghijklmnopqrstuvwxyz!abcdefghijklmnopqrstuvwxyz!abcdefghijklmnopqrstuvwxyz!abcdefghijklmnopqrstuvwxyz!abcdefghijklmnopqrstuvwxyz!abcdefghijklmnopqrstuvwxyz!abcdefghijklmnopqrstuvwxyz!abcdefghijklmnopqrstuvwxyz!");
+                    }
+                }
+
+                Process currentProcess = Process.GetCurrentProcess();
+                long usedMemory = currentProcess.PrivateMemorySize64;
+
+                MessageBox.Show($"Memory Used: {usedMemory} bytes");
+
+                return "Success";
+            }
+            catch (Exception ex)
+            {
+                return $"No Success: {ex.Message}";
+            }
         }
     }
 }

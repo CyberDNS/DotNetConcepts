@@ -4,6 +4,8 @@
     <TargetFrameworks>net472</TargetFrameworks>
     <RootNamespace>ComServer</RootNamespace>
     <Platforms>AnyCPU;x64;x86</Platforms>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>signing.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>

@@ -9,19 +9,15 @@ namespace ComClient
     {
         static void Main(string[] args)
         {
-            Type ComType = Type.GetTypeFromCLSID(new Guid("EC23E47B-A6B4-4D83-B692-A68162DD3939"));
-            object ComObject = Activator.CreateInstance(ComType);
+            Type comType = Type.GetTypeFromCLSID(new Guid("EC23E47B-A6B4-4D83-B692-A68162DD3939"));
+            object comObject = Activator.CreateInstance(comType);
 
-            bool bootResult = (bool)ComType.InvokeMember("Boot", BindingFlags.InvokeMethod, null, ComObject, new object[0]);
-            Console.WriteLine($"Boot: {bootResult}");
-
-            string result = (string)ComType.InvokeMember("Call", BindingFlags.InvokeMethod, null, ComObject, new object[] { "" });
+            string result = (string)comType.InvokeMember("Test", BindingFlags.InvokeMethod, null, comObject, new object[] { "Hello World 64bit" });
             Console.WriteLine($"Result: {result}");
 
-            ComType.InvokeMember("Shutdown", BindingFlags.InvokeMethod, null, ComObject, new object[0]);
+            comType.InvokeMember("Shutdown", BindingFlags.InvokeMethod, null, comObject, new object[0]);
 
-            if (Marshal.IsComObject(ComObject))
-                Marshal.ReleaseComObject(ComObject);
+            if (Marshal.IsComObject(comObject)) { Marshal.ReleaseComObject(comObject); }
         }
     }
 }
